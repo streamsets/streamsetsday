@@ -2,8 +2,6 @@
 This document describes how to create a home lab environment that replicates what you used for StreamSets Days labs.
    
 The environment includes:
-* StreamSets Transformer:	[http://localhost:19630](http://localhost:19630)
-* StreamSets Data Collector:	[http://localhost:18630](http://localhost:18630)
 * SQLPad to execute queries against SQL Server: [http://localhost:3000](http://localhost:3000)
 * Microsoft SQL Server running as Developer
 
@@ -79,7 +77,15 @@ This will create a folder “streamsets-days” containing these files and folde
 
 <p align="center"><img src="images/image4.png" /></p>
 
-## Step 2 - Starting the environment
+## Step 2 - Create the Docker network
+
+Open a command prompt and change directory into the streamsets-days folder.  Then execute the following command:
+
+    docker network create --attachable ssdays
+
+This will create a docker network.  Containers attached to this network will be accessible to each other by service name.  (i.e. "ping sqlserver" will work inside a container)
+
+## Step 3 - Starting the lab services
 
 Open a command prompt and change directory into the streamsets-days folder.  Then execute the following command:
 
@@ -93,38 +99,17 @@ This will start all the applications and you will see each of them reporting the
 
 After the first time starting the applications you will see error messages "**Cannot insert duplicate key in object**"  You can ignore these errors.
 
-You can now open the application web pages.  The username is "admin" and the password is "admin".  Note that the URL is different than what you used in the labs.
-* StreamSets Transformer: [http://localhost:19630](http://localhost:19630)
-* StreamSets Data Collector: [http://localhost:18630](http://localhost:18630)
+You can now open the SQLPad web pages.  The username is "admin" and the password is "admin".  Note that the URL is different than what you used in the labs.
 * SQLPad to execute queries against SQL Server: [http://localhost:3000](http://localhost:3000)
 
 TIP: If you see the nginx Hello World page then you should click the refresh button to force a reload of the page.
 
-## Step 3 - Activating Data Collector and Transformer
+## Step 4 - Deploy Data Collector and Transformer engines
 
-You must activate StreamSets Data Collector and StreamSets Transformer before using them.
+Follow the instructions in Lab 1 to deploy the Data Collector and Transformer engines.  You can also refer to documentation: 
+[https://docs.streamsets.com/portal/#platform-controlhub/controlhub/UserGuide/Deployments/Self.html#task_plh_xjt_jpb]
 
-3a. Log into Data Collector via [http://localhost:18630](http://localhost:18630)
-
-<p align="center"><img src="images/image5.png" /></p>
-
-3b. Click the “Register with StreamSets” button at the bottom center of the page.
-
-<p align="center"><img src="images/image6.png" /></p>
-
-3c. You can register using an existing Google or Microsoft account.  Or sign up with an email address.
-
-<p align="center"><img src="images/image7.png" /></p>
-
-3d. Click "Link Now" to complete the activation.
-
-<p align="center"><img src="images/image8.png" /></p>
-
-3e. Data Collector is now activated.  Repeat the above steps for Transformer URL: [http://localhost:19630](http://localhost:19630) 
-
-**NOTE:** Once activated the Data Collector and Transformer logins will not use the email address you activated with.  They will use the same username "admin" and password "admin" you used earlier.
-
-## Step 4 - Lab Pipelines
+## Step 5 - Lab Pipelines
 
 Solutions to the lab pipelines are provided as Sample Pipelines in each engine.  You can view the available Sample Pipelines by clicking on the "Sample Pipelines Library" button as shown below.
 
@@ -147,3 +132,5 @@ If you started the applications using the command “docker-compose up -d” the
     docker-compose down
 
 If you started the applications using the command “docker-compose up” then you can stop the applications by pressing ctrl-c in the terminal window you started the applications in.
+
+Engines (Data Collector and Transformer) can be stopped in the Control Hub UI.
